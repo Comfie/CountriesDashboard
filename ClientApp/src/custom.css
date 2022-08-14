@@ -1,0 +1,29 @@
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 300px;
+  transition: 0.4s all;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.listStyle{
+  padding: 0.20rem 0.10rem;
+  font-size: 13px
+}
