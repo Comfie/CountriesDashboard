@@ -1,10 +1,11 @@
 ﻿/CountryDashboard.sln
 /.idea/
 /.idea/
-/CountryDashboard.csproj.user
+
 /.vs/
 /.vs/
 /bin/
 /bin/
 /node_modules/
 /obj/
+/node_modules

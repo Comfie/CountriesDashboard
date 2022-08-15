@@ -5,7 +5,7 @@ import CardGroup from 'react-bootstrap/CardGroup';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal'
+import {Link} from 'react-router-dom';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -20,6 +20,38 @@ export class Home extends Component {
         this.getCountries();
     }
 
+    static async deleteCountry(id) {
+        const response = await fetch('/api/countries/deleteCountry/' + id, {method: 'DELETE'});
+        const data = await response.json();
+        if (data === true) {
+            window.location.reload(true);
+        }
+    }
+
+    render() {
+        let contents = this.state.loading
+            ? <p><em>Loading...</em></p>
+            : Home.renderCountriesList(this.state.countries);
+
+        return (
+            <div>
+                <Row>
+                    <Col>
+                        <div className="mb-2" style={{float: 'right'}}>
+                            <Link to="/country">
+                                <Button variant="primary">Add Country</Button>
+                            </Link>
+
+                        </div>
+                    </Col>
+                </Row>
+                <div>
+                    {contents}
+                </div>
+            </div>
+        );
+    }
+
     static renderCountriesList(countries) {
         return (
             <CardGroup>
@@ -30,7 +62,13 @@ export class Home extends Component {
                                 style={{width: '18rem'}}
                                 className="mb-2 cards">
                                 <Card.Body>
-                                    <Card.Title>{country.name}</Card.Title>
+                                    <Row>
+                                        <Col xs={8}><Card.Title>{country.name}</Card.Title></Col>
+                                        <Col>
+                                            <Button variant="danger" onClick={() => this.deleteCountry(country.id)}
+                                                    style={{float: 'right'}}>X</Button>
+                                        </Col>
+                                    </Row>
                                     <ListGroup className="list-group-flush">
                                         <ListGroup.Item className="listStyle"><strong>Country
                                             Code:</strong> {country.iso2Code}</ListGroup.Item>
@@ -58,46 +96,9 @@ export class Home extends Component {
         )
     }
 
-    render() {
-        let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
-            : Home.renderCountriesList(this.state.countries);
-
-        return (
-            <div>
-                <Row>
-                    <Col>
-                        <div className="mb-2" style={{float: 'right'}}>
-                            <Button variant="primary">Add Country</Button>
-                        </div>
-                    </Col>
-                </Row>
-                <div>
-                    {contents}
-                </div>
-
-                {/*<Modal show={show} onHide={handleClose}>*/}
-                {/*    <Modal.Header closeButton>*/}
-                {/*        <Modal.Title>Modal heading</Modal.Title>*/}
-                {/*    </Modal.Header>*/}
-                {/*    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>*/}
-                {/*    <Modal.Footer>*/}
-                {/*        <Button variant="secondary" onClick={handleClose}>*/}
-                {/*            Close*/}
-                {/*        </Button>*/}
-                {/*        <Button variant="primary" onClick={handleClose}>*/}
-                {/*            Save Changes*/}
-                {/*        </Button>*/}
-                {/*    </Modal.Footer>*/}
-                {/*</Modal>*/}
-            </div>
-        );
-    }
-
     async getCountries() {
         const response = await fetch('/api/countries/getCountries');
         const data = await response.json();
-        console.log(data)
         this.setState({countries: data, loading: false});
     }
 }

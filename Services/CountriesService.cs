@@ -9,7 +9,12 @@ namespace CountryDashboard.Services
 {
     public class CountriesService : ICountriesService
     {
-        CountryDashboardContext _countryDashboardContext = new CountryDashboardContext();
+        private readonly CountryDashboardContext _countryDashboardContext;
+
+        public CountriesService(CountryDashboardContext countryDashboardContext)
+        {
+            _countryDashboardContext = countryDashboardContext;
+        }
 
         public bool AddCountry(Countries country)
         {
@@ -20,7 +25,7 @@ namespace CountryDashboard.Services
             //Check if the number of countries is less than 10
             var numberOfCountries = _countryDashboardContext.Countries.Count();
 
-            if (checkCountry != null && numberOfCountries < 10)
+            if (checkCountry == null && numberOfCountries < 10)
             {
                 _countryDashboardContext.Countries.Add(country);
                 _countryDashboardContext.SaveChanges();

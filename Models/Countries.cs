@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace CountryDashboard.Models
+﻿namespace CountryDashboard.Models
 {
-    public partial class Countries
+    public class Countries
     {
         public long Id { get; set; }
         public string Name { get; set; }
